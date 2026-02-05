@@ -77,7 +77,7 @@ pipeline {
         }
 
         /* ===== OWASP Dependency-Check (Stable Configuration) ===== */
-        sstage('OWASP Dependency Check') {
+         stage('OWASP Dependency Check') {
   steps {
     sh '''
       mkdir -p dependency-check-data
