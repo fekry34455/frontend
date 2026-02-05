@@ -77,7 +77,7 @@ pipeline {
         }
 
         /* ===== OWASP Dependency-Check (Stable Configuration) ===== */
-        stage('OWASP Dependency Check') {
+        sstage('OWASP Dependency Check') {
   steps {
     sh '''
       mkdir -p dependency-check-data
@@ -94,6 +94,7 @@ pipeline {
     '''
   }
 }
+
 
 
         stage('Docker Build') {
