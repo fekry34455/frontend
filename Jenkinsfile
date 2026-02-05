@@ -19,8 +19,8 @@ pipeline {
         dockerhub = credentials('docker-hub-credentials')
 
         /* Docker Images */
-        docker tag frontend:14 fekry34455/frontend-reddit
-        docker push fekry34455/frontend-reddit
+        sh "docker tag frontend:14 fekry34455/frontend-reddit-1:14"
+        sh "docker push fekry34455/frontend-reddit-1:14"
 
 
         /* SonarQube */
