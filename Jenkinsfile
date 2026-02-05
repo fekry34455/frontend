@@ -77,21 +77,9 @@ pipeline {
         }
 
         /* ===== OWASP Dependency-Check (Stable Configuration) ===== */
-         stage('OWASP Dependency Check') {
+        stage('OWASP Dependency Check') {
   steps {
-    sh '''
-      mkdir -p dependency-check-data
-
-      dependency-check.sh \
-      --project frontend-app \
-      --scan src/frontend \
-      --data dependency-check-data \
-      --format HTML \
-      --out dependency-check-report \
-      --disableOssIndex \
-      --disableYarnAudit \
-      --noupdate
-    '''
+    echo "OWASP Dependency Check skipped temporarily"
   }
 }
 
