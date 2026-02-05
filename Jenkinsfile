@@ -84,7 +84,7 @@ pipeline {
                     variable: 'NVD_API_KEY'
                 )]) {
                     sh '''
-                    /opt/dependency-check/bin/dependency-check.sh \
+                    dependency-check.sh
                       --project frontend-app \
                       --scan src/frontend \
                       --data ${DC_DATA_DIR} \
