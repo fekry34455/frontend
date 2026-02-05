@@ -19,8 +19,9 @@ pipeline {
         dockerhub = credentials('docker-hub-credentials')
 
         /* Docker Images */
-        FRONTEND_IMAGE = "mohammedmourad1/frontend-reddit-1"
-        IMAGE_TAG      = "${BUILD_NUMBER}"
+        docker tag frontend:14 fekry34455/frontend-reddit
+        docker push fekry34455/frontend-reddit
+
 
         /* SonarQube */
         SONAR_PROJECT_KEY  = "frontend-second"
