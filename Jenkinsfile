@@ -78,25 +78,23 @@ pipeline {
 
         /* ===== OWASP Dependency-Check (Stable Configuration) ===== */
         stage('OWASP Dependency Check') {
-            steps {
-                withCredentials([string(
-                    credentialsId: 'nvd-api-key',
-                    variable: 'NVD_API_KEY'
-                )]) {
-                    sh '''
-                    dependency-check.sh
-                      --project frontend-app \
-                      --scan src/frontend \
-                      --data ${DC_DATA_DIR} \
-                      --format HTML \
-                      --out dependency-check-report \
-                      --nvdApiKey $NVD_API_KEY \
-                      --disableOssIndex \
-                      --disableYarnAudit
-                    '''
-                }
-            }
-        }
+  steps {
+    withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
+      sh '''
+        dependency-check.sh \
+        --project frontend-app \
+        --scan src/frontend \
+        --data /opt/dependency-check-data \
+        --format HTML \
+        --out dependency-check-report \
+        --nvdApiKey $NVD_API_KEY \
+        --disableOssIndex \
+        --disableYarnAudit
+      '''
+    }
+  }
+}
+
 
         stage('Docker Build') {
             steps {
