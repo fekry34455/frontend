@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -15,20 +14,17 @@ pipeline {
     }
 
     environment {
-        /* DockerHub Credentials */
-        dockerhub = credentials('docker-hub-credentials')
 
-        /* Docker Images */
-        sh "docker tag frontend:14 fekry34455/frontend-reddit-1:14"
-        sh "docker push fekry34455/frontend-reddit-1:14"
+        // DockerHub Credentials
+        DOCKERHUB_CREDS = credentials('docker-hub-credentials')
 
+        // Image Info
+        IMAGE_TAG = "14"
+        FRONTEND_IMAGE = "fekry34455/frontend-reddit-1"
 
-        /* SonarQube */
+        // SonarQube
         SONAR_PROJECT_KEY  = "frontend-second"
         SONAR_PROJECT_NAME = "Frontend_second_app"
-
-        /* OWASP Dependency-Check Shared DB */
-        DC_DATA_DIR = "/opt/dependency-check-data"
     }
 
     stages {
@@ -67,24 +63,15 @@ pipeline {
                         def scannerHome = tool 'sonar-scanner'
                         sh """
                         ${scannerHome}/bin/sonar-scanner \
-                          -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                          -Dsonar.projectName=${SONAR_PROJECT_NAME} \
-                          -Dsonar.sources=src/frontend \
-                          -Dsonar.language=js
+                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                        -Dsonar.projectName=${SONAR_PROJECT_NAME} \
+                        -Dsonar.sources=src/frontend \
+                        -Dsonar.language=js
                         """
                     }
                 }
             }
         }
-
-        /* ===== OWASP Dependency-Check (Stable Configuration) ===== */
-        stage('OWASP Dependency Check') {
-  steps {
-    echo "OWASP Dependency Check skipped temporarily"
-  }
-}
-
-
 
         stage('Docker Build') {
             steps {
@@ -98,10 +85,11 @@ pipeline {
             }
         }
 
-        stage('Push Images to DockerHub') {
+        stage('Push Image to DockerHub') {
             steps {
                 script {
                     docker.withRegistry('', 'docker-hub-credentials') {
+
                         sh "docker tag frontend:${IMAGE_TAG} ${FRONTEND_IMAGE}:${IMAGE_TAG}"
                         sh "docker push ${FRONTEND_IMAGE}:${IMAGE_TAG}"
 
