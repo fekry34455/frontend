@@ -81,10 +81,12 @@ pipeline {
   steps {
     withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
       sh '''
+        mkdir -p dependency-check-data
+
         dependency-check.sh \
         --project frontend-app \
         --scan src/frontend \
-        --data /opt/dependency-check-data \
+        --data dependency-check-data \
         --format HTML \
         --out dependency-check-report \
         --nvdApiKey $NVD_API_KEY \
